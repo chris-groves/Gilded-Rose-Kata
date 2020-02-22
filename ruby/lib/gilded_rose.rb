@@ -53,6 +53,7 @@ class GildedRose
   end
 end
 
+# don't change
 class Item
   attr_accessor :name, :sell_in, :quality
 
