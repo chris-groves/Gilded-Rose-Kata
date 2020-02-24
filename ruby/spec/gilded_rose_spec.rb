@@ -19,5 +19,11 @@ describe GildedRose do
       GildedRose.new(items).update_quality
       expect(items[0].quality).to eq 49
     end
+
+    it 'reduces the quality of an item by 2' do
+      items = [Item.new("Apples", 10, 50)]
+      11.times { GildedRose.new(items).update_quality }
+      expect(items[0].quality).to eq 38
+    end
   end
 end
