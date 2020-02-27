@@ -79,5 +79,11 @@ describe GildedRose do
       GildedRose.new(items).update_quality
       expect(items[0].quality).to eq 13
     end
+
+    it 'decreases the quality to 0 of "Backstage passes to a TAFKAL80ETC concert" after the event' do
+      items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 0, 10)]
+      GildedRose.new(items).update_quality
+      expect(items[0].quality).to eq 0
+    end
   end
 end
