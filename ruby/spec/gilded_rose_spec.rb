@@ -51,15 +51,15 @@ describe GildedRose do
     end
 
     it 'does not reduce the sell in of "Sulfuras, Hand of Ragnaros"' do
-      items = [Item.new("Sulfuras, Hand of Ragnaros", 0, 50)]
+      items = [Item.new("Sulfuras, Hand of Ragnaros", 0, 80)]
       GildedRose.new(items).update_quality
       expect(items[0].sell_in).to eq 0
     end
 
     it 'does not decrease the quality of "Sulfuras, Hand of Ragnaros"' do
-      items = [Item.new("Sulfuras, Hand of Ragnaros", 0, 50)]
+      items = [Item.new("Sulfuras, Hand of Ragnaros", 0, 80)]
       GildedRose.new(items).update_quality
-      expect(items[0].quality).to eq 50
+      expect(items[0].quality).to eq 80
     end
 
     it 'increases the quality of "Backstage passes to a TAFKAL80ETC concert"' do
