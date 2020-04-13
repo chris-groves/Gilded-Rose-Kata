@@ -1,3 +1,15 @@
-References
+### Approach
+
+I started by writing tests for all the behaviour mentioned in the project brief. This allows me to check the code is still performing as it should as I go through to refactor and add functionality.
+
+The next stage was to identify ways to improve the code. I identified the following areas:
+
+-Update_quality method has 2 functions - iterate over array of items and then update each item
+-Repeated code eg adding 1 to item quality
+-Messy nested if statement
+
+I created a new 'update_item' method which contained the if statement and left the iteration over the items array in the 'update_quality' method (I completed this with reference to the article by @tauqeer_ahmad listed below).
+
+### References
 
 https://medium.com/@tauqeer_ahmad/gilded-rose-refactoring-kata-eab143e8b33f
