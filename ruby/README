@@ -10,6 +10,9 @@ The next stage was to identify ways to improve the code. I identified the follow
 
 I created a new 'update_item' method which contained the if statement and left the iteration over the items array in the 'update_quality' method (I completed this with reference to the article by @tauqeer_ahmad listed below).
 
+Next I did some research as to how to tackle a big nested if statement and came across the article from 'Refactoring Guru' listed below. Inspired by this article I moved the check for 'Sulfuras' to the beginning of the if statement as this is a 'special case'. Then I removed all other references to it in the rest of the code.
+
 ### References
 
 https://medium.com/@tauqeer_ahmad/gilded-rose-refactoring-kata-eab143e8b33f
+https://refactoring.guru/replace-nested-conditional-with-guard-clauses
