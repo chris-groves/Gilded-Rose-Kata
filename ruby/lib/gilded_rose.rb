@@ -12,12 +12,20 @@ class GildedRose
 
   def update_item(item)
     return item if item.name == "Sulfuras, Hand of Ragnaros"
+    if aged_brie?(item)
+      if item.quality < 50
+        increase_item_quality_by_one(item)
+        item.sell_in -= 1
+      else
+        item.sell_in -= 1
+      end
+    end
     if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert"
       if item.quality > 0
         reduce_item_quality_by_one(item)
       end
     else
-      if item.quality < 50
+      if item.quality < 50 && item.name != "Aged Brie"
         increase_item_quality_by_one(item)
         if item.name == "Backstage passes to a TAFKAL80ETC concert"
           if item.sell_in < 11
@@ -57,6 +65,10 @@ class GildedRose
 
   def increase_item_quality_by_one(item)
     item.quality += 1
+  end
+
+  def aged_brie?(item)
+    item.name == "Aged Brie"
   end
 end
 
