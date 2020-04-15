@@ -21,37 +21,27 @@ class GildedRose
       end
     end
     if backstage_passes?(item)
-      if item.sell_in < 11 && item.quality < 50
+      item.sell_in -= 1
+      if item.sell_in > 10 && item.quality < 50
         increase_item_quality_by_one(item)
+      end
+      if item.sell_in < 11 && item.sell_in > 5 && item.quality < 50
+        2.times { increase_item_quality_by_one(item) }
       end
       if item.sell_in < 6 && item.quality < 50
-        increase_item_quality_by_one(item)
+        3.times { increase_item_quality_by_one(item) }
+      end
+      if item.sell_in < 0
+        item.quality = 0
       end
     end
-
-    if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert"
-      if item.quality > 0
+    if regular_item?(item)
+      item.sell_in -= 1
+      if item.quality > 0 && item.sell_in >= 0
         reduce_item_quality_by_one(item)
       end
-    else
-      if item.quality < 50 && item.name != "Aged Brie"
-        increase_item_quality_by_one(item)
-      end
-    end
-    item.sell_in = item.sell_in - 1
-    if item.sell_in < 0
-      if item.name != "Aged Brie"
-        if item.name != "Backstage passes to a TAFKAL80ETC concert"
-          if item.quality > 0
-            reduce_item_quality_by_one(item)
-          end
-        else
-          item.quality = item.quality - item.quality
-        end
-      else
-        if item.quality < 50
-          increase_item_quality_by_one(item)
-        end
+      if item.sell_in < 0 && item.quality > 1
+        reduce_item_quality_by_two(item)
       end
     end
   end
@@ -70,6 +60,14 @@ class GildedRose
 
   def backstage_passes?(item)
     item.name == "Backstage passes to a TAFKAL80ETC concert"
+  end
+
+  def regular_item?(item)
+    item.name != "Aged Brie" && item.name != "Backstage passes to a TAFKAL80ETC concert"
+  end
+
+  def reduce_item_quality_by_two(item)
+    item.quality -= 2
   end
 end
 
