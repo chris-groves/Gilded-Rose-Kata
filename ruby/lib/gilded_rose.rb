@@ -11,7 +11,9 @@ class GildedRose
   end
 
   def update_item(item)
-    return item if item.name == "Sulfuras, Hand of Ragnaros"
+    if sulfuras?(item)
+      return item
+    end
     if aged_brie?(item)
       if item.quality < 50
         increase_item_quality_by_one(item)
@@ -60,6 +62,10 @@ class GildedRose
 
   def backstage_passes?(item)
     item.name == "Backstage passes to a TAFKAL80ETC concert"
+  end
+
+  def sulfuras?(item)
+    item.name == "Sulfuras, Hand of Ragnaros"
   end
 
   def regular_item?(item)
