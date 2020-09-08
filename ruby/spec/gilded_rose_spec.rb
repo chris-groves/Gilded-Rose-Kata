@@ -1,6 +1,22 @@
 require 'gilded_rose'
 
 describe GildedRose do
+  context 'sell by date has not been reached' do
+    it 'reduces the quality of an item by 1' do
+      items = [Item.new("Apples", 50, 50)]
+      GildedRose.new(items).update_quality
+      expect(items[0].quality).to eq 49
+    end
+  end
+
+  context 'sell by date has passed' do
+    it 'reduces the quality of an item by 2' do
+      items = [Item.new("Apples", 10, 50)]
+      11.times { GildedRose.new(items).update_quality }
+      expect(items[0].quality).to eq 38
+    end
+  end
+
   describe "#update_quality" do
     it "does not change the name" do
       items = [Item.new("foo", 0, 0)]
@@ -14,17 +30,9 @@ describe GildedRose do
       expect(items[0].sell_in).to eq 49
     end
 
-    it 'reduces the quality of an item by 1' do
-      items = [Item.new("Apples", 50, 50)]
-      GildedRose.new(items).update_quality
-      expect(items[0].quality).to eq 49
-    end
 
-    it 'reduces the quality of an item by 2 when sell by date passes' do
-      items = [Item.new("Apples", 10, 50)]
-      11.times { GildedRose.new(items).update_quality }
-      expect(items[0].quality).to eq 38
-    end
+
+
 
     it 'does not reduce the quality of an item below 0' do
       items = [Item.new("Apples", 10, 10)]

@@ -5,38 +5,13 @@ class GildedRose
   end
 
   def update_quality
-    @items.each do |item|
-      update_item(item)
-    end
+    @items.each { |item| update_item(item) }
   end
 
   def update_item(item)
-    if sulfuras?(item)
-      return item
-    end
-    if aged_brie?(item)
-      if item.quality < 50
-        increase_item_quality_by_one(item)
-        item.sell_in -= 1
-      else
-        item.sell_in -= 1
-      end
-    end
-    if backstage_passes?(item)
-      item.sell_in -= 1
-      if item.sell_in > 10 && item.quality < 50
-        increase_item_quality_by_one(item)
-      end
-      if item.sell_in < 11 && item.sell_in > 5 && item.quality < 50
-        2.times { increase_item_quality_by_one(item) }
-      end
-      if item.sell_in < 6 && item.quality < 50
-        3.times { increase_item_quality_by_one(item) }
-      end
-      if item.sell_in < 0
-        item.quality = 0
-      end
-    end
+    return item if sulfuras?(item)
+    update_aged_brie(item) if aged_brie?(item)
+    update_backstage_passes(item) if backstage_passes?(item)
     if regular_item?(item)
       item.sell_in -= 1
       if item.quality > 0 && item.sell_in >= 0
@@ -48,12 +23,39 @@ class GildedRose
     end
   end
 
+  private
+
+  def update_aged_brie(item)
+    increase_item_quality_by_one(item) if item.quality < 50
+    reduce_item_sell_in_by_one(item)
+  end
+
+  def update_backstage_passes(item)
+    reduce_item_sell_in_by_one(item)
+    increase_item_quality_by_three(item) if item.sell_in < 6 && item.quality < 50
+    increase_item_quality_by_two(item) if item.sell_in.between?(6,10) && item.quality < 50
+    increase_item_quality_by_one(item) if item.sell_in > 10 && item.quality < 50
+    item.quality = 0 if item.sell_in < 0
+  end
+
+  def reduce_item_sell_in_by_one(item)
+    item.sell_in -= 1
+  end
+
   def reduce_item_quality_by_one(item)
     item.quality -= 1
   end
 
   def increase_item_quality_by_one(item)
     item.quality += 1
+  end
+
+  def increase_item_quality_by_two(item)
+    item.quality += 2
+  end
+
+  def increase_item_quality_by_three(item)
+    item.quality += 3
   end
 
   def aged_brie?(item)
