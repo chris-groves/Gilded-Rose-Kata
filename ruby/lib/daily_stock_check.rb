@@ -1,4 +1,4 @@
-class GildedRose
+class DailyStockCheck
 
   def initialize(items)
     @items = items
