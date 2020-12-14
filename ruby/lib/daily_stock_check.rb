@@ -10,28 +10,28 @@ class DailyStockCheck
 
   def update_item(item)
     return item if sulfuras?(item)
+    reduce_item_sell_in_by_one(item)
     update_aged_brie(item) if aged_brie?(item)
     update_backstage_passes(item) if backstage_passes?(item)
-    if regular_item?(item)
-      item.sell_in -= 1
-      if item.quality > 0 && item.sell_in >= 0
-        reduce_item_quality_by_one(item)
-      end
-      if item.sell_in < 0 && item.quality > 1
-        reduce_item_quality_by_two(item)
-      end
-    end
+    update_regular_item(item) if regular_item?(item)
   end
 
   private
 
+  def update_regular_item(item)
+    if item.quality > 0 && item.sell_in >= 0
+      reduce_item_quality_by_one(item)
+    end
+    if item.sell_in < 0 && item.quality > 1
+      reduce_item_quality_by_two(item)
+    end
+  end
+
   def update_aged_brie(item)
     increase_item_quality_by_one(item) if item.quality < 50
-    reduce_item_sell_in_by_one(item)
   end
 
   def update_backstage_passes(item)
-    reduce_item_sell_in_by_one(item)
     increase_item_quality_by_three(item) if item.sell_in < 6 && item.quality < 50
     increase_item_quality_by_two(item) if item.sell_in.between?(6,10) && item.quality < 50
     increase_item_quality_by_one(item) if item.sell_in > 10 && item.quality < 50
