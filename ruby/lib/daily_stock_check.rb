@@ -4,7 +4,7 @@ class DailyStockCheck
     @items = items
   end
 
-  def update_quality
+  def update_items
     @items.each { |item| update_item(item) }
   end
 
