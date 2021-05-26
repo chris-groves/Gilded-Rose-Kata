@@ -56,7 +56,7 @@ describe DailyStockCheck do
       end
     end
 
-    context 'for any other item' do
+    context 'Normal items' do
       it "does not change the name" do
         items = [Item.new("foo", 0, 0)]
         described_class.new(items).update_items()
