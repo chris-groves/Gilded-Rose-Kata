@@ -81,7 +81,7 @@ describe DailyStockCheck do
         expect(items[0].quality).to eq 0
       end
 
-      context 'sell by date has passed' do
+      context 'when sell by date has passed' do
         it 'reduces the quality of an item by 2' do
           items = [Item.new("Apples", -1, 50)]
           described_class.new(items).update_items
