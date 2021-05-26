@@ -31,10 +31,13 @@ class DailyStockCheck
 
   def update_backstage_passes(item)
     reduce_item_sell_in_by_one(item)
-    increase_item_quality_by_three(item) if item.sell_in < 6 && item.quality < 50
-    increase_item_quality_by_two(item) if item.sell_in.between?(6,10) && item.quality < 50
-    increase_item_quality_by_one(item) if item.sell_in > 10 && item.quality < 50
-    item.quality = 0 if item.sell_in < 0
+    return item.quality = 0 if item.sell_in < 0
+
+    increase_item_quality_by_one(item)
+    return if item.quality >= 50
+    
+    increase_item_quality_by_one(item) if item.sell_in < 11
+    increase_item_quality_by_one(item) if item.sell_in < 6
   end
 
   def reduce_item_sell_in_by_one(item)
