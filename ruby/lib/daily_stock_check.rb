@@ -9,10 +9,16 @@ class DailyStockCheck
   end
 
   def update_item(item)
-    return item if sulfuras?(item)
-    update_aged_brie(item) if aged_brie?(item)
-    update_backstage_passes(item) if backstage_passes?(item)
-    update_regular_item(item) if regular_item?(item)
+    case item.name
+    when "Sulfuras, Hand of Ragnaros"
+      return item
+    when "Aged Brie"
+      update_aged_brie(item)
+    when "Backstage passes to a TAFKAL80ETC concert"
+      update_backstage_passes(item)
+    else
+      update_regular_item(item)
+    end
   end
 
   private
