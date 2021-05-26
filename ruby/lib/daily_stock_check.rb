@@ -45,22 +45,6 @@ class DailyStockCheck
     item.quality += 1 if item.sell_in < 11
     item.quality += 1 if item.sell_in < 6
   end
-
-  def aged_brie?(item)
-    item.name == "Aged Brie"
-  end
-
-  def backstage_passes?(item)
-    item.name == "Backstage passes to a TAFKAL80ETC concert"
-  end
-
-  def sulfuras?(item)
-    item.name == "Sulfuras, Hand of Ragnaros"
-  end
-
-  def regular_item?(item)
-    item.name != "Aged Brie" && item.name != "Backstage passes to a TAFKAL80ETC concert"
-  end
 end
 
 # don't change
