@@ -3,6 +3,12 @@ require 'daily_stock_check'
 describe DailyStockCheck do
   describe "#update_items" do
     context 'Aged Brie' do
+      it 'reduces the sell in by 1' do
+        items = [Item.new("Aged Brie", 50, 50)]
+        described_class.new(items).update_items
+        expect(items[0].sell_in).to eq 49
+      end
+      
       it 'increases the quality' do
         items = [Item.new("Aged Brie", 10, 10)]
         described_class.new(items).update_items
