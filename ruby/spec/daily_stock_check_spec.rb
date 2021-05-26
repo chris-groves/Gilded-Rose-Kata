@@ -69,25 +69,23 @@ describe DailyStockCheck do
         expect(items[0].sell_in).to eq 49
       end
 
-      it 'does not reduce the quality below 0' do
-        items = [Item.new("Apples", 10, 10)]
-        11.times { described_class.new(items).update_items }
-        expect(items[0].quality).to eq 0
+      it 'reduces the quality in by 1' do
+        items = [Item.new("Apples", 50, 50)]
+        described_class.new(items).update_items
+        expect(items[0].sell_in).to eq 49
       end
 
-      context 'sell by date has not been reached' do
-        it 'reduces the quality of am item by 1' do
-          items = [Item.new("Apples", 50, 50)]
-          described_class.new(items).update_items
-          expect(items[0].quality).to eq 49
-        end
+      it 'does not reduce the quality below 0' do
+        items = [Item.new("Apples", 10, 0)]
+        described_class.new(items).update_items
+        expect(items[0].quality).to eq 0
       end
 
       context 'sell by date has passed' do
         it 'reduces the quality of an item by 2' do
-          items = [Item.new("Apples", 10, 50)]
-          11.times { described_class.new(items).update_items }
-          expect(items[0].quality).to eq 38
+          items = [Item.new("Apples", -1, 50)]
+          described_class.new(items).update_items
+          expect(items[0].quality).to eq 48
         end
       end
     end
