@@ -18,46 +18,26 @@ class DailyStockCheck
   private
 
   def update_regular_item(item)
-    reduce_item_sell_in_by_one(item)
+    item.sell_in -= 1
     return if item.quality == 0
-    reduce_item_quality_by_one(item)
-    reduce_item_quality_by_one(item) if item.sell_in < 0
+    item.quality -= 1
+    item.quality -= 1 if item.sell_in < 0
   end
 
   def update_aged_brie(item)
-    reduce_item_sell_in_by_one(item)
-    increase_item_quality_by_one(item) if item.quality < 50
+    item.sell_in -= 1
+    item.quality += 1 if item.quality < 50
   end
 
   def update_backstage_passes(item)
-    reduce_item_sell_in_by_one(item)
+    item.sell_in -= 1
     return item.quality = 0 if item.sell_in < 0
 
-    increase_item_quality_by_one(item)
-    return if item.quality >= 50
-    
-    increase_item_quality_by_one(item) if item.sell_in < 11
-    increase_item_quality_by_one(item) if item.sell_in < 6
-  end
-
-  def reduce_item_sell_in_by_one(item)
-    item.sell_in -= 1
-  end
-
-  def reduce_item_quality_by_one(item)
-    item.quality -= 1
-  end
-
-  def increase_item_quality_by_one(item)
     item.quality += 1
-  end
+    return if item.quality >= 50
 
-  def increase_item_quality_by_two(item)
-    item.quality += 2
-  end
-
-  def increase_item_quality_by_three(item)
-    item.quality += 3
+    item.quality += 1 if item.sell_in < 11
+    item.quality += 1 if item.sell_in < 6
   end
 
   def aged_brie?(item)
@@ -74,10 +54,6 @@ class DailyStockCheck
 
   def regular_item?(item)
     item.name != "Aged Brie" && item.name != "Backstage passes to a TAFKAL80ETC concert"
-  end
-
-  def reduce_item_quality_by_two(item)
-    item.quality -= 2
   end
 end
 
