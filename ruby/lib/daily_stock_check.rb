@@ -5,6 +5,7 @@ class DailyStockCheck
   end
 
   def update_items
+    raise StandardError.new "Items needs to be an array" unless @items.is_a?(Array)
     @items.each { |item| update_item(item) }
   end
 
@@ -26,7 +27,7 @@ class DailyStockCheck
   def update_regular_item(item)
     item.sell_in -= 1
     return if item.quality == 0
-    
+
     item.quality -= 1
     item.quality -= 1 if item.sell_in < 0
   end

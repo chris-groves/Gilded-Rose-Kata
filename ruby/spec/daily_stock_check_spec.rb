@@ -2,13 +2,60 @@ require 'daily_stock_check'
 
 describe DailyStockCheck do
   describe "#update_items" do
+    context "when there are no items" do
+      it "returns an empty array" do
+        items = []
+        expect(described_class.new(items).update_items).to eq []
+      end
+    end
+    
+    context "when an invalid item is updated" do
+      it "returns an error" do
+        items = "string"
+        expect{ described_class.new(items).update_items}.to raise_error "Items needs to be an array"
+      end
+    end
+
+    context 'Normal items' do
+      it "does not change the name" do
+        items = [Item.new("foo", 0, 0)]
+        described_class.new(items).update_items()
+        expect(items[0].name).to eq "foo"
+      end
+
+      it 'reduces the sell in by 1' do
+        items = [Item.new("Apples", 50, 50)]
+        described_class.new(items).update_items
+        expect(items[0].sell_in).to eq 49
+      end
+
+      it 'reduces the quality in by 1' do
+        items = [Item.new("Apples", 50, 50)]
+        described_class.new(items).update_items
+        expect(items[0].sell_in).to eq 49
+      end
+
+      it 'does not reduce the quality below 0' do
+        items = [Item.new("Apples", 10, 0)]
+        described_class.new(items).update_items
+        expect(items[0].quality).to eq 0
+      end
+
+      context 'when sell by date has passed' do
+        it 'reduces the quality of an item by 2' do
+          items = [Item.new("Apples", -1, 50)]
+          described_class.new(items).update_items
+          expect(items[0].quality).to eq 48
+        end
+      end
+    end
     context 'Aged Brie' do
       it 'reduces the sell in by 1' do
         items = [Item.new("Aged Brie", 50, 50)]
         described_class.new(items).update_items
         expect(items[0].sell_in).to eq 49
       end
-      
+
       it 'increases the quality' do
         items = [Item.new("Aged Brie", 10, 10)]
         described_class.new(items).update_items
@@ -62,38 +109,6 @@ describe DailyStockCheck do
       end
     end
 
-    context 'Normal items' do
-      it "does not change the name" do
-        items = [Item.new("foo", 0, 0)]
-        described_class.new(items).update_items()
-        expect(items[0].name).to eq "foo"
-      end
 
-      it 'reduces the sell in by 1' do
-        items = [Item.new("Apples", 50, 50)]
-        described_class.new(items).update_items
-        expect(items[0].sell_in).to eq 49
-      end
-
-      it 'reduces the quality in by 1' do
-        items = [Item.new("Apples", 50, 50)]
-        described_class.new(items).update_items
-        expect(items[0].sell_in).to eq 49
-      end
-
-      it 'does not reduce the quality below 0' do
-        items = [Item.new("Apples", 10, 0)]
-        described_class.new(items).update_items
-        expect(items[0].quality).to eq 0
-      end
-
-      context 'when sell by date has passed' do
-        it 'reduces the quality of an item by 2' do
-          items = [Item.new("Apples", -1, 50)]
-          described_class.new(items).update_items
-          expect(items[0].quality).to eq 48
-        end
-      end
-    end
   end
 end
