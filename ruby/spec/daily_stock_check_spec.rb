@@ -1,7 +1,7 @@
 require "daily_stock_check"
 
 describe DailyStockCheck do
-  describe "#update_items" do
+  describe "#update_item" do
     context "when there are no items" do
       it "returns an empty array" do
         items = []
@@ -18,9 +18,9 @@ describe DailyStockCheck do
 
     context "Normal items" do
       it "does not change the name" do
-        items = [Item.new("foo", 0, 0)]
-        described_class.new(items).update_items()
-        expect(items[0].name).to eq "foo"
+        items = [Item.new("Apples", 0, 0)]
+        described_class.new(items).update_items
+        expect(items[0].name).to eq "Apples"
       end
 
       it "reduces the sell in by 1" do

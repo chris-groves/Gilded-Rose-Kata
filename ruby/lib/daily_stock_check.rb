@@ -1,4 +1,7 @@
+require_relative "regular_item"
+
 class DailyStockCheck
+  attr_accessor :items, :item
 
   def initialize(items)
     @items = items
@@ -18,19 +21,11 @@ class DailyStockCheck
     when "Backstage passes to a TAFKAL80ETC concert"
       update_backstage_passes(item)
     else
-      update_regular_item(item)
+      RegularItem.new(item).update
     end
   end
 
   private
-
-  def update_regular_item(item)
-    item.sell_in -= 1
-    return if item.quality == 0
-
-    item.quality -= 1
-    item.quality -= 1 if item.sell_in < 0
-  end
 
   def update_aged_brie(item)
     item.sell_in -= 1
