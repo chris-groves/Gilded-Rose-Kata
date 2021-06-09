@@ -26,13 +26,6 @@ class DailyStockCheck
       RegularItem.new(item).update
     end
   end
-
-  private
-
-  def update_aged_brie(item)
-    item.sell_in -= 1
-    item.quality += 1 if item.quality < 50
-  end
 end
 
 # don't change
