@@ -18,7 +18,6 @@ class DailyStockCheck
     when "Sulfuras, Hand of Ragnaros"
       return item
     when "Aged Brie"
-      # update_aged_brie(item)
       AgedBrie.new(item).update
     when "Backstage passes to a TAFKAL80ETC concert"
       update_backstage_passes(item)
