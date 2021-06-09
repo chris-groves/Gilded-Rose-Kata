@@ -1,5 +1,5 @@
 class Sulfuras
-  attr_accessor :name, :sell_in, :quality
+  attr_accessor :item
 
   def initialize(item)
     @item = item
