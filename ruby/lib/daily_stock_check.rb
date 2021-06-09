@@ -1,6 +1,7 @@
 require_relative "regular_item"
 require_relative "aged_brie"
 require_relative "backstage_passes"
+require_relative "sulfuras"
 
 class DailyStockCheck
   attr_accessor :items, :item
@@ -17,7 +18,7 @@ class DailyStockCheck
   def update_item(item)
     case item.name
     when "Sulfuras, Hand of Ragnaros"
-      return item
+      Sulfuras.new(item).update
     when "Aged Brie"
       AgedBrie.new(item).update
     when "Backstage passes to a TAFKAL80ETC concert"
