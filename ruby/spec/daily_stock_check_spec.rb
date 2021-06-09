@@ -18,32 +18,32 @@ describe DailyStockCheck do
 
     context "Normal items" do
       it "does not change the name" do
-        items = [Item.new("Apples", 0, 0)]
+        items = [Item.new(name:"Apples",sell_in: 0, quality: 0)]
         described_class.new(items).update_items
         expect(items[0].name).to eq "Apples"
       end
 
       it "reduces the sell in by 1" do
-        items = [Item.new("Apples", 50, 50)]
+        items = [Item.new(name: "Apples", sell_in: 50, quality: 50)]
         described_class.new(items).update_items
         expect(items[0].sell_in).to eq 49
       end
 
       it "reduces the quality in by 1" do
-        items = [Item.new("Apples", 50, 50)]
+        items = [Item.new(name: "Apples", sell_in: 50, quality: 50)]
         described_class.new(items).update_items
         expect(items[0].sell_in).to eq 49
       end
 
       it "does not reduce the quality below 0" do
-        items = [Item.new("Apples", 10, 0)]
+        items = [Item.new(name: "Apples", sell_in: 10, quality: 0)]
         described_class.new(items).update_items
         expect(items[0].quality).to eq 0
       end
 
       context "when sell by date has passed" do
         it "reduces the quality of an item by 2" do
-          items = [Item.new("Apples", -1, 50)]
+          items = [Item.new(name: "Apples", sell_in: -1, quality: 50)]
           described_class.new(items).update_items
           expect(items[0].quality).to eq 48
         end
@@ -51,19 +51,19 @@ describe DailyStockCheck do
     end
     context "Aged Brie" do
       it "reduces the sell in by 1" do
-        items = [Item.new("Aged Brie", 50, 50)]
+        items = [Item.new(name: "Aged Brie", sell_in: 50, quality: 50)]
         described_class.new(items).update_items
         expect(items[0].sell_in).to eq 49
       end
 
       it "increases the quality" do
-        items = [Item.new("Aged Brie", 10, 10)]
+        items = [Item.new(name: "Aged Brie", sell_in: 10, quality: 10)]
         described_class.new(items).update_items
         expect(items[0].quality).to eq 11
       end
 
       it "does not increase the quality above 50" do
-        items = [Item.new("Aged Brie", 10, 50)]
+        items = [Item.new(name: "Aged Brie", sell_in: 10, quality: 50)]
         described_class.new(items).update_items
         expect(items[0].quality).to eq 50
       end
@@ -71,13 +71,13 @@ describe DailyStockCheck do
 
     context "Sulfuras, Hand of Ragnaros" do
       it "does not reduce the sell in" do
-        items = [Item.new("Sulfuras, Hand of Ragnaros", 0, 80)]
+        items = [Item.new(name: "Sulfuras, Hand of Ragnaros", sell_in: 0, quality: 80)]
         described_class.new(items).update_items
         expect(items[0].sell_in).to eq 0
       end
 
       it "does not change the quality" do
-        items = [Item.new("Sulfuras, Hand of Ragnaros", 0, 80)]
+        items = [Item.new(name: "Sulfuras, Hand of Ragnaros", sell_in: 0, quality: 80)]
         described_class.new(items).update_items
         expect(items[0].quality).to eq 80
       end
@@ -85,25 +85,25 @@ describe DailyStockCheck do
 
     context "Backstage Passes" do
       it "increases the quality" do
-        items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 20, 10)]
+        items = [Item.new(name: "Backstage passes to a TAFKAL80ETC concert", sell_in: 20, quality: 10)]
         described_class.new(items).update_items
         expect(items[0].quality).to eq 11
       end
 
       it "increases the quality by 2 when sell in is between 10 and 6 inclusive" do
-        items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 10, 10)]
+        items = [Item.new(name: "Backstage passes to a TAFKAL80ETC concert", sell_in: 10, quality: 10)]
         described_class.new(items).update_items
         expect(items[0].quality).to eq 12
       end
 
       it "increases the quality by 3 when sell in is 5 or less" do
-        items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 5, 10)]
+        items = [Item.new(name: "Backstage passes to a TAFKAL80ETC concert", sell_in: 5, quality: 10)]
         described_class.new(items).update_items
         expect(items[0].quality).to eq 13
       end
 
       it "decreases the quality to 0 after the event" do
-        items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 0, 10)]
+        items = [Item.new(name:"Backstage passes to a TAFKAL80ETC concert", sell_in: 0, quality: 10)]
         described_class.new(items).update_items
         expect(items[0].quality).to eq 0
       end
