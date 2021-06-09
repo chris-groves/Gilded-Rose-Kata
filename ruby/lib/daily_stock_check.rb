@@ -2,6 +2,7 @@ require_relative "regular_item"
 require_relative "aged_brie"
 require_relative "backstage_passes"
 require_relative "sulfuras"
+require_relative "item"
 
 class DailyStockCheck
   attr_accessor :items, :item
@@ -26,20 +27,5 @@ class DailyStockCheck
     else
       RegularItem.new(item).update
     end
-  end
-end
-
-# don't change
-class Item
-  attr_accessor :name, :sell_in, :quality
-
-  def initialize(name, sell_in, quality)
-    @name = name
-    @sell_in = sell_in
-    @quality = quality
-  end
-
-  def to_s()
-    "#{@name}, #{@sell_in}, #{@quality}"
   end
 end
